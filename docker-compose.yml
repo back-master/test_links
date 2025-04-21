@@ -1,0 +1,39 @@
+networks:
+  links_network:
+
+services:
+  backend:
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    command: uvicorn config.asgi:application --host 0.0.0.0 --port 8000 --reload
+    container_name: links_backend
+    depends_on:
+      - db
+    env_file:
+      - .env
+    networks:
+      - links_network
+    ports:
+      - "8000:8000"
+    restart: always
+    volumes:
+      - ./backend:/backend
+      - media:/backend/media
+      - static:/backend/static
+
+  db:
+    container_name: links_db
+    image: postgres:latest
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - links_network
+
+volumes:
+  media:
+  pgdata:
+  static:

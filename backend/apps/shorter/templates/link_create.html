@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Сокращатель ссылок</title>
+</head>
+<body>
+    <h1>Сократи ссылку</h1>
+    <form method="post">
+        {% csrf_token %}
+        <input type="url" name="url" placeholder="Вставь свою ссылку" required style="width:300px">
+        <button type="submit">Сократить</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Статистика переходов</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .link-item {
+            margin-bottom: 20px;
+        }
+        .link-item a {
+            font-size: 18px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .link-item p {
+            font-size: 16px;
+        }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            text-decoration: none;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+        }
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Статистика переходов по коротким ссылкам</h1>
+
+{% for link in page_obj %}
+    <div class="link-item">
+        <a href="{{ link.reversed_url }}" target="_blank">{{ link.reversed_url }}</a>
+        <p>Переходов: {{ link.link_count }}</p>
+    </div>
+{% empty %}
+    <p>Нет ссылок для отображения.</p>
+{% endfor %}
+
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; Первая</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+    {% endif %}
+
+    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+    {% endif %}
+</div>
+
+</body>
+</html>
